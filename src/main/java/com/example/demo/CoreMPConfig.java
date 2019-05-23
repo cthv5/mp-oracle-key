@@ -40,12 +40,13 @@ public class CoreMPConfig {
     public SqlSessionFactory coreSqlSessionFactory(@Qualifier("coredb") DataSource datasource) throws Exception {
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(datasource);
+
         MybatisConfiguration configuration = new MybatisConfiguration();
         configuration.setDefaultScriptingLanguage(MybatisXMLLanguageDriver.class);
         configuration.addKeyGenerator("coreKeyGen", coreKeyGen);
-//        configuration.set
         configuration.setJdbcTypeForNull(JdbcType.NULL);
 //        configuration.setUseGeneratedKeys(true);
+
         sessionFactory.setConfiguration(configuration);
         sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:com/example/demo/core/mapper/*.xml"));
         sessionFactory.setTypeAliasesPackage("com.example.demo.core.entity");

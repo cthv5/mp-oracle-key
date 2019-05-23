@@ -1,7 +1,10 @@
 package com.example.demo;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
+import com.baomidou.mybatisplus.core.MybatisConfiguration;
+import com.baomidou.mybatisplus.core.MybatisXMLLanguageDriver;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.type.JdbcType;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,10 +32,12 @@ public class StatisticMPConfig {
     public SqlSessionFactory statisticSqlSessionFactory(@Qualifier("statisticdb") DataSource datasource) throws Exception {
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(datasource);
-//        MybatisConfiguration configuration = new MybatisConfiguration();
-//        configuration.setDefaultScriptingLanguage(MybatisXMLLanguageDriver.class);
-//        configuration.setJdbcTypeForNull(JdbcType.NULL);
-//        sessionFactory.setConfiguration(configuration);
+        
+        MybatisConfiguration configuration = new MybatisConfiguration();
+        configuration.setDefaultScriptingLanguage(MybatisXMLLanguageDriver.class);
+        configuration.setJdbcTypeForNull(JdbcType.NULL);
+
+        sessionFactory.setConfiguration(configuration);
         sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:com/example/demo/statistic/mapper/*.xml"));
         sessionFactory.setTypeAliasesPackage("com.example.demo.statistic.entity");
         return sessionFactory.getObject();
